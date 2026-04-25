@@ -12,10 +12,16 @@
   "activationEvents": [],
   "main": "./extension.js",
   "contributes": {
-    "commands": [{
+    "commands": [
+      {
       "command": "css-class-finder.helloWorld",
-      "title": "Hello World"
-    }]
+      "title": "CSS Class Finder: Hello World"
+      },
+      {
+      "command": "css-class-finder.transferSelectedClasses",
+      "title": "CSS Class Finder: Transfer Selected Classes"
+      }
+    ]
   },
   "scripts": {
     "lint": "eslint .",
