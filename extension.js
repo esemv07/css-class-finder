@@ -13,7 +13,7 @@ function activate(context) {
 	});
 
 	const disposable2 = vscode.commands.registerCommand('css-class-finder.transferSelectedClasses', async function () {
-		/* const editor = vscode.window.activeTextEditor;
+		const editor = vscode.window.activeTextEditor;
 
 		if (!editor) {
 			vscode.window.showWarningMessage('No active editor found.');
@@ -28,7 +28,18 @@ function activate(context) {
 			return
 		}
 
-		const document = editor.document; */
+		// const document = editor.document;
+
+		let classes = [];
+		const reg = /class=["']([^"']+)["']/gm;
+		let match;
+
+		while ((match = reg.exec(selectedText)) !== null) {
+			const indClass = match[1].split(/\s+/);
+			classes.push(...indClass);
+		}
+		const uniqueClasses = [...new Set(classes)];
+		console.log(uniqueClasses);
 
 		const files = await vscode.workspace.findFiles('**/*.css', '**/node-modules/**', 10);
 		const pickFiles = files.map(file => ({
