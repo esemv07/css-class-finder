@@ -1,10 +1,11 @@
 const vscode = require('vscode');
 
-
 /**
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
+
+	let allClasses = new Array();
 
 	console.log('Congratulations, your extension "css-class-finder" is now active!');
 
@@ -17,6 +18,9 @@ function activate(context) {
 
 		if (!editor) {
 			vscode.window.showWarningMessage('No active editor found.');
+			return
+		} else if (!editor.document.uri.toString().includes('.html')) {
+			vscode.window.showWarningMessage('Current file not of .html format.');
 			return
 		}
 
@@ -39,9 +43,16 @@ function activate(context) {
 			classes.push(...indClass);
 		}
 		const uniqueClasses = [...new Set(classes)];
-		console.log(uniqueClasses);
+		if (uniqueClasses.length == 0) {
+			vscode.window.showWarningMessage('No classes in selected text.');
+			return
+		}
 
-		const files = await vscode.workspace.findFiles('**/*.css', '**/node-modules/**', 10);
+		const files = await vscode.workspace.findFiles('**/*.css', '**/node_modules/**', 10);
+		if (files.length === 0) {
+			vscode.window.showWarningMessage('No Stylesheets to select.')
+			return
+		}
 		const pickFiles = files.map(file => ({
 			label: vscode.workspace.asRelativePath(file),
 			uri: file
@@ -54,11 +65,76 @@ function activate(context) {
 
 		if (fileSelection) {
 			const document = await vscode.workspace.openTextDocument(fileSelection.uri);
+			const edit = new vscode.WorkspaceEdit()
+			let stylesText = "";
+			uniqueClasses.forEach( function(uniqueClass) {
+				stylesText += `
+.${uniqueClass} {
+	/* insert ${uniqueClass} styles */
+}\n\n`
+			});
+			const lastLine = document.lineAt(document.lineCount - 1);
+			const position = new vscode.Position(lastLine.lineNumber, lastLine.text.length);
+			edit.insert(fileSelection.uri, position, ('\n' + stylesText));
+			await vscode.workspace.applyEdit(edit);
     		await vscode.window.showTextDocument(document);
 		}
 	});
 
-	context.subscriptions.push(disposable, disposable2);
+	const disposable3 = vscode.commands.registerCommand('css-class-finder.autoSuggestClasses', async function () {
+		const editor = vscode.window.activeTextEditor;
+
+		if (!editor) {
+			vscode.window.showWarningMessage('No active editor found.');
+			return
+		} else if (!editor.document.uri.toString().includes('.css') && !editor.document.uri.toString().includes('.scss')) {
+			vscode.window.showWarningMessage('Current file not of .css or .scss format.');
+			return
+		}
+
+		const files = await vscode.workspace.findFiles('**/*.html', '**/node_modules/**', 10);
+		if (files.length === 0) {
+			vscode.window.showWarningMessage('No HTML files to select.')
+			return
+		}
+		const pickFiles = files.map(file => ({
+			label: vscode.workspace.asRelativePath(file),
+			uri: file
+		}));
+
+		const fileSelection = await vscode.window.showQuickPick(pickFiles, {
+			placeHolder: 'Select a HTML file to fetch classes from',
+			matchOnDetail: true
+		});
+
+		if (fileSelection) {
+			const fileContent = await vscode.workspace.fs.readFile(fileSelection.uri);
+			const fileText = new TextDecoder().decode(fileContent);
+			console.log(fileText)
+
+			let classes = [];
+			const reg = /class=["']([^"']+)["']/gm;
+			let match;
+
+			while ((match = reg.exec(fileText)) !== null) {
+				const indClass = match[1].split(/\s+/);
+				classes.push(...indClass);
+			}
+			allClasses = [...new Set(classes)];
+			if (allClasses.length == 0) {
+				vscode.window.showWarningMessage('No classes in selected file.');
+				return
+			}
+		}
+	});
+
+	const provider = vscode.languages.registerCompletionItemProvider('css', {
+		provideCompletionItems(document, position, token, context) {
+			return allClasses.map(indClass => new vscode.CompletionItem("." + indClass + " {}"))
+		}
+	})
+
+	context.subscriptions.push(disposable2, disposable3, provider);
 }
 
 

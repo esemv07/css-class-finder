@@ -14,12 +14,12 @@
   "contributes": {
     "commands": [
       {
-      "command": "css-class-finder.helloWorld",
-      "title": "CSS Class Finder: Hello World"
-      },
-      {
       "command": "css-class-finder.transferSelectedClasses",
       "title": "CSS Class Finder: Transfer Selected Classes"
+      },
+      {
+      "command": "css-class-finder.autoSuggestClasses",
+      "title": "CSS Class Finder: Automatically Suggest Classes"
       }
     ]
   },
