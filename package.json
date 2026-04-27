@@ -20,6 +20,10 @@
       {
       "command": "css-class-finder.autoSuggestClasses",
       "title": "CSS Class Finder: Automatically Suggest Classes"
+      },
+      {
+      "command": "css-class-finder.autoTransferClasses",
+      "title": "CSS Class Finder: Automatically Transfer Classes"
       }
     ]
   },
