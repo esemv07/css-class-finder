@@ -9,8 +9,7 @@ function activate(context) {
 	let transferedClasses = new Array();
 	let htmlFile = "";
 	let cssFile = "";
-
-	console.log('Congratulations, your extension "css-class-finder" is now active!');
+	
 
 	const disposable = vscode.commands.registerCommand('css-class-finder.helloWorld', function () {
 		vscode.window.showInformationMessage('Hello World from CSS Class Finder!');
@@ -35,8 +34,6 @@ function activate(context) {
 			return
 		}
 
-		// const document = editor.document;
-
 		let classes = [];
 		const reg = /class=["']([^"']+)["']/gm;
 		let match;
@@ -53,7 +50,7 @@ function activate(context) {
 
 		const files = await vscode.workspace.findFiles('**/*.css', '**/node_modules/**', 10);
 		if (files.length === 0) {
-			vscode.window.showWarningMessage('No Stylesheets to select.')
+			vscode.window.showWarningMessage('No stylesheets to select.')
 			return
 		}
 		const pickFiles = files.map(file => ({
@@ -154,7 +151,7 @@ function activate(context) {
 			}
 			allClasses = [...new Set(classes)];
 			if (allClasses.length == 0) {
-				vscode.window.showWarningMessage('No classes in selected file.');
+				vscode.window.showWarningMessage('No classes currently in this file.');
 				return
 			}
 			vscode.commands.executeCommand('editor.action.triggerSuggest');
