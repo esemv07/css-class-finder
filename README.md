@@ -1,65 +1,53 @@
-# css-class-finder README
+# CSS Class Finder README
 
-This is the README for your extension "css-class-finder". After writing up a brief description, we recommend including the following sections.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+### How To Use
 
-For example if there is an image subfolder under your extension project workspace:
+Open the command palette using `Ctrl + Shift + P` or `Cmd + Shift + P` and pick from one of the 3 commands detailed below.
 
-\!\[feature X\]\(images/feature-x.png\)
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+### Commands
 
-## Requirements
+#### Transfer Selected Classes:
+  1. Select text containing at least one class in an HTML file.
+  2. Run the command and select a CSS file to transfer the classes to.
+  3. Your classes will be transferred to the selected file and the CSS file will be open.
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+https://github.com/user-attachments/assets/05581b0b-4dcf-48f5-a07d-f5c9767b9edf
 
-## Extension Settings
+> [!NOTE]
+> This command does not check whether classes are already present in the selected CSS file so duplicated may occur
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+#### Automatically Suggest Classes:
+  1. Open the CSS file you want the classes to be suggested in.
+  2. Run the command and select the HTML file you want the classes to be pulled from.
+  3. Classes will now be suggested in your CSS file and will be refreshed each time your HTML file is saved.
 
-For example:
+https://github.com/user-attachments/assets/f748bc67-cba4-46d7-be77-3be67c882cb0
 
-This extension contributes the following settings:
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+
+#### Automatically Transfer Classes:
+  1. Open the HTML file you want the classes to be pulled from.
+  2. Run the command and select the CSS file you want the classes to be transferred to.
+  3. Each time you save the HTML file your classes in the CSS file will be updated with no duplicates.
+
+https://github.com/user-attachments/assets/fb7050d9-26ca-4924-9aa1-ab18b4e4359a
+
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+None yet :)
+
+> [!TIP]
+> Please report any issues you find!
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+Initial release of CSS Class Finder! Features and commands detailed above.
 
 ---
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
