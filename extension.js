@@ -6,6 +6,7 @@ const vscode = require('vscode');
 function activate(context) {
 
 	let allClasses = new Array();
+	let htmlFile = "";
 
 	console.log('Congratulations, your extension "css-class-finder" is now active!');
 
@@ -108,9 +109,9 @@ function activate(context) {
 		});
 
 		if (fileSelection) {
+			htmlFile = fileSelection.label;
 			const fileContent = await vscode.workspace.fs.readFile(fileSelection.uri);
 			const fileText = new TextDecoder().decode(fileContent);
-			console.log(fileText)
 
 			let classes = [];
 			const reg = /class=["']([^"']+)["']/gm;
@@ -130,11 +131,35 @@ function activate(context) {
 
 	const provider = vscode.languages.registerCompletionItemProvider('css', {
 		provideCompletionItems(document, position, token, context) {
-			return allClasses.map(indClass => new vscode.CompletionItem("." + indClass + " {}"))
+			return allClasses.map(indClass => new vscode.CompletionItem("." + indClass + ` {
+	
+}`))
 		}
 	})
 
-	context.subscriptions.push(disposable2, disposable3, provider);
+	const saveListener = vscode.workspace.onDidSaveTextDocument(async document => {
+		if (vscode.workspace.asRelativePath(document.uri) == htmlFile) {
+			const fileContent = await vscode.workspace.fs.readFile(document.uri);
+			const fileText = new TextDecoder().decode(fileContent);
+
+			let classes = [];
+			const reg = /class=["']([^"']+)["']/gm;
+			let match;
+
+			while ((match = reg.exec(fileText)) !== null) {
+				const indClass = match[1].split(/\s+/);
+				classes.push(...indClass);
+			}
+			allClasses = [...new Set(classes)];
+			if (allClasses.length == 0) {
+				vscode.window.showWarningMessage('No classes in selected file.');
+				return
+			}
+			vscode.commands.executeCommand('editor.action.triggerSuggest');
+		}
+	})
+
+	context.subscriptions.push(disposable2, disposable3, provider, saveListener);
 }
 
 
