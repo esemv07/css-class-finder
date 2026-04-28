@@ -1,9 +1,11 @@
-# CSS Class Finder README
+# CSS to HTML Class Finder README
 
 
 ## Features
 
 ### How To Use
+
+Find the extension on VSCode by searching 'CSS to HTML Class Finder' or install it [here](http://marketplace.visualstudio.com/items?itemName=esemv.css-to-html-class-finder).
 
 Open the command palette using `Ctrl + Shift + P` or `Cmd + Shift + P` and pick from one of the 3 commands detailed below.
 
@@ -48,6 +50,6 @@ None yet :)
 
 ### 1.0.0
 
-Initial release of CSS Class Finder! Features and commands detailed above.
+Initial release of CSS to HTML Class Finder! Features and commands detailed above.
 
 ---
