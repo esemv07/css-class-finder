@@ -1,6 +1,7 @@
 {
-  "name": "css-class-finder",
-  "displayName": "CSS Class Finder",
+  "name": "css-to-html-class-finder",
+  "displayName": "CSS to HTML Class Finder",
+  "publisher": "esemv",
   "description": "Easily transfer HTML classes to CSS without risk of typos or missed classes.",
   "version": "0.0.1",
   "engines": {
@@ -15,15 +16,15 @@
     "commands": [
       {
       "command": "css-class-finder.transferSelectedClasses",
-      "title": "CSS Class Finder: Transfer Selected Classes"
+      "title": "CSS to HTML Class Finder: Transfer Selected Classes"
       },
       {
       "command": "css-class-finder.autoSuggestClasses",
-      "title": "CSS Class Finder: Automatically Suggest Classes"
+      "title": "CSS to HTML Class Finder: Automatically Suggest Classes"
       },
       {
       "command": "css-class-finder.autoTransferClasses",
-      "title": "CSS Class Finder: Automatically Transfer Classes"
+      "title": "CSS to HTML Class Finder: Automatically Transfer Classes"
       }
     ]
   },
